@@ -16,77 +16,70 @@ import java.util.*;
 
 /**
  * @author <b>4evterg<b/>
- * @version <b>1.7<b/>
+ * @version <b>24.7<b/>
  *
  */
 public class Control{
-
     Control(){
         print("Control Constructor");
     }
 
-    public static void serviceConsumer(ServiceFactory fact) {
-        Service s = fact.getService();
-        s.method1();
-        s.method2();
-    }
-
     public static void main(String[] args)
     {
-        serviceConsumer(new Imp1Factory());
-        serviceConsumer(new Imp2Factory());
-    }
-}
 
-interface Service{
-    void method1();
-    void method2();
-}
-
-interface ServiceFactory{
-    Service getService();
-}
-
-class Imp1 implements Service{
-    @Override
-    public void method1() {
-        print("Implementation1 method1");
+        Sequence sequence = new Sequence(10);
+        for (int i = 0; i<10; i++) {
+            sequence.add(i);
+        }
+            Selector selector = sequence.getSelector();
+            while (!selector.end()){
+                print(selector.current() + " ");
+                selector.next();
+            }
+        }
     }
 
-    @Override
-    public void method2() {
-        print("Implementation1 method2");
-    }
+interface Selector{
+    boolean end();
+    Object current();
+    void next();
 }
 
-class Imp1Factory implements ServiceFactory{
-    @Override
-    public Service getService() {
-        return new Imp1();
+class Sequence {
+    private Object[] items;
+    private int next = 0;
+    public Sequence(int size){
+        items = new Object[size];
+        print("Sequence Constructor");
+    }
+    public void add(Object x){
+        if (next < items.length){
+            items[next++] = x;
+        }
+    }
+    private class SequenceSelector implements Selector{
+        private int i = 0;
+        @Override
+        public boolean end() {
+            return i == items.length;
+        }
+
+        @Override
+        public Object current() {
+            return items[i];
+        }
+
+        @Override
+        public void next() {
+            if(i<items.length){
+                i++;
+            }
+        }
+    }
+    public Selector getSelector(){
+        return new SequenceSelector();
     }
 }
-
-
-
-class Imp2 implements Service{
-    @Override
-    public void method1() {
-        print("Implementation2 method1");
-    }
-
-    @Override
-    public void method2() {
-        print("Implementation2 method2");
-    }
-}
-
-class Imp2Factory implements ServiceFactory{
-    @Override
-    public Service getService() {
-        return new Imp2();
-    }
-}
-
 
 
 
