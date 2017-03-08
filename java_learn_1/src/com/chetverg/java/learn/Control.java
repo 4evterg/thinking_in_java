@@ -25,60 +25,71 @@ public class Control{
         print("Control Constructor");
     }
 
+    public static void serviceConsumer(ServiceFactory fact) {
+        Service s = fact.getService();
+        s.method1();
+        s.method2();
+    }
+
     public static void main(String[] args)
     {
+        serviceConsumer(new Imp1Factory());
+        serviceConsumer(new Imp2Factory());
+    }
+}
 
+interface Service{
+    void method1();
+    void method2();
+}
+
+interface ServiceFactory{
+    Service getService();
+}
+
+class Imp1 implements Service{
+    @Override
+    public void method1() {
+        print("Implementation1 method1");
+    }
+
+    @Override
+    public void method2() {
+        print("Implementation1 method2");
+    }
+}
+
+class Imp1Factory implements ServiceFactory{
+    @Override
+    public Service getService() {
+        return new Imp1();
+    }
+}
+
+
+
+class Imp2 implements Service{
+    @Override
+    public void method1() {
+        print("Implementation2 method1");
+    }
+
+    @Override
+    public void method2() {
+        print("Implementation2 method2");
+    }
+}
+
+class Imp2Factory implements ServiceFactory{
+    @Override
+    public Service getService() {
+        return new Imp2();
     }
 }
 
 
 
 
-class A{
-    private interface B{
-        void f();
-    }
-    class Bimp implements B{
-        public void f(){}
-    }
-    Bimp getBimp(){
-        return new Bimp();
-    }
-    private B bRef;
-    public void reciveB(B b){
-        bRef = b;
-        bRef.f();
-    }
-
-    public void f() {
-        getBimp().f();
-    }
-}
-
-class Test{
-    void f(){
-        A a = new A();
-        A.Bimp ab = a.getBimp();
-        a.reciveB(ab);
-    }
-}
-
-
-class ClintonAdapter extends Simpsons{
-    Clinton clinton;
-
-    ClintonAdapter(Clinton clinton){
-        this.clinton = clinton;
-    }
-
-    public void sayMyName(){
-        clinton.sayMyName();
-    }
-    public void sayFullClass(){
-        clinton.sayFullClass();
-    }
-
-}
 
 
 
