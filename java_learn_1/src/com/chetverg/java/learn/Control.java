@@ -26,61 +26,66 @@ public class Control{
 
     public static void main(String[] args)
     {
+        Pacel pacel = new Pacel();
+        Contents contents = pacel.contents();
+        Destination destination = pacel.destination("Taskan");
 
-        Sequence sequence = new Sequence(10);
-        for (int i = 0; i<10; i++) {
-            sequence.add(i);
-        }
-            Selector selector = sequence.getSelector();
-            while (!selector.end()){
-                print(selector.current() + " ");
-                selector.next();
-            }
-        }
-    }
-
-interface Selector{
-    boolean end();
-    Object current();
-    void next();
-}
-
-class Sequence {
-    private Object[] items;
-    private int next = 0;
-    public Sequence(int size){
-        items = new Object[size];
-        print("Sequence Constructor");
-    }
-    public void add(Object x){
-        if (next < items.length){
-            items[next++] = x;
-        }
-    }
-    private class SequenceSelector implements Selector{
-        private int i = 0;
-        @Override
-        public boolean end() {
-            return i == items.length;
-        }
-
-        @Override
-        public Object current() {
-            return items[i];
-        }
-
-        @Override
-        public void next() {
-            if(i<items.length){
-                i++;
-            }
-        }
-    }
-    public Selector getSelector(){
-        return new SequenceSelector();
+        Pacel2 pacel2 = new Pacel2();
+        Destination d = pacel2.dest("Crymea");
+        
     }
 }
 
+interface Destination{
+    String readLabel();
+}
+interface Contents{
+    int value();
+}
+
+class Pacel{
+    private class PContents implements Contents{
+        int i = 11;
+        @Override
+        public int value() {
+            return i;
+        }
+    }
+    protected class PDestination implements Destination{
+        private String label;
+        PDestination(String whereTo){
+            label = whereTo;
+        }
+        @Override
+        public String readLabel() {
+            return label;
+        }
+    }
+    public Destination destination(String s){
+        return new PDestination(s);
+    }
+    public Contents contents(){
+        return new PContents();
+    }
+
+}
+
+class Pacel2{
+    public Destination dest(String s){
+        class PDestination implements Destination{
+            private String label;
+            private PDestination(String whereTo){
+                label = whereTo;
+                print(label);
+            }
+            @Override
+            public String readLabel() {
+                return label;
+            }
+        }
+        return new PDestination(s);
+    }
+}
 
 
 
