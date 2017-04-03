@@ -26,13 +26,11 @@ public class Control{
 
     public static void main(String[] args)
     {
-        Pacel pacel = new Pacel();
-        Contents contents = pacel.contents();
-        Destination destination = pacel.destination("Taskan");
-
-        Pacel2 pacel2 = new Pacel2();
-        Destination d = pacel2.dest("Crymea");
-        
+        Pacel2 pacel = new Pacel2();
+        Contents c = Pacel2.contents();
+        Destination d = Pacel2.destination("Alch");
+        print(d.readLabel());
+        print(c.value());
     }
 }
 
@@ -71,19 +69,35 @@ class Pacel{
 }
 
 class Pacel2{
-    public Destination dest(String s){
-        class PDestination implements Destination{
-            private String label;
-            private PDestination(String whereTo){
-                label = whereTo;
-                print(label);
-            }
-            @Override
-            public String readLabel() {
-                return label;
-            }
+    private static class Pcontents implements Contents{
+        private int i = 11;
+        @Override
+        public int value() {
+            return i;
         }
-        return new PDestination(s);
+    }
+    protected static class ParcelDestination implements Destination{
+        private String label;
+        private ParcelDestination(String whereTo){
+            label = whereTo;
+        }
+
+        @Override
+        public String readLabel() {
+            return label;
+        }
+        public static void f(){} //чисто дпя примера статик метода в влож-м классе
+        static int x = 10; // пример статик поля
+        static class AnotherLevel{ //пример статик класса во вложенном
+            public static void f(){}
+            static int x = 11;
+        }
+    }
+    public static Destination destination(String s){
+        return new ParcelDestination(s);
+    }
+    public static Contents contents(){
+        return new Pcontents();
     }
 }
 
