@@ -1,4 +1,4 @@
-package com.chetverg.java.learn;
+package com.chetverg.java.learn.innerclasses;
 
 import static com.chetverg.java.learn.Print.print;
 

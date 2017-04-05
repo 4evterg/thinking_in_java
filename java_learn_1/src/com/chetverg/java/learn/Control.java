@@ -23,14 +23,17 @@ public class Control{
     Control(){
         print("Control Constructor");
     }
-
-    public static void main(String[] args)
-    {
-        Pacel2 pacel = new Pacel2();
-        Contents c = Pacel2.contents();
-        Destination d = Pacel2.destination("Alch");
-        print(d.readLabel());
-        print(c.value());
+    public static class Tester{
+        public static void main(String[] args)
+        {
+            Pacel2 pacel = new Pacel2();
+            Contents c = Pacel2.contents();
+            Destination d = Pacel2.destination("Alch");
+            print(d.readLabel());
+            print(c.value());
+//        ClassInterface ci = new ClassInterface.Test();
+//        ci.howdy();
+        }
     }
 }
 
@@ -98,6 +101,16 @@ class Pacel2{
     }
     public static Contents contents(){
         return new Pcontents();
+    }
+}
+
+interface ClassInterface{
+    void howdy();
+    class Test implements ClassInterface{
+        @Override
+        public void howdy() {
+            print("hello hello hello");
+        }
     }
 }
 
