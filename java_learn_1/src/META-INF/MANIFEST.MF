@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: com.chetverg.java.learn.Control
+Main-Class: com.chetverg.java.learn.innerclasses.controller_live_examp
+ le.GreenhouseController
 
